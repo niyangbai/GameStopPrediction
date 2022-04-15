@@ -215,7 +215,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'master_thesis', u'master_thesis Documentation',
+    ('index', 'master_thesis_2022', u'master_thesis Documentation',
      [u"Niyang Bai"], 1)
 ]
 
@@ -230,8 +230,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'master_thesis', u'master_thesis Documentation',
-     u"Niyang Bai", 'master_thesis',
-     'haha', 'Miscellaneous'),
+     u"Niyang Bai", 'master_thesis_2022',
+     'code for my master thesis', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
