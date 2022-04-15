@@ -1,5 +1,6 @@
-__all__ = ['foofactories', 'tallFoos', 'shortfoos', 'medumfoos',
-           'santaslittlehelperfoo', 'superawsomefoo', 'anotherfoo']
+__all__ = ['get_data',
+           'data_clean',
+           'nlp']
 
 import praw
 from praw.models import MoreComments
