@@ -1,4 +1,9 @@
 # -*- coding: utf-8-sig -*-
+import praw
+from praw.models import MoreComments
+import datetime as dt
+import pandas as pd
+from psaw import PushshiftAPI
 
 with open('pw.txt', 'r') as f:
     pw = f.read()

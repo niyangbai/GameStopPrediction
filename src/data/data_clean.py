@@ -1,5 +1,8 @@
 # -*- coding: utf-8-sig -*-
 
+import time
+import pandas as pd
+
 df = pd.read_csv('api.csv', encoding = 'utf-8-sig')
 deleted = ['[removed]', '[deleted]', '[deleted by user]']
 df_clean = df.replace(deleted, None)
