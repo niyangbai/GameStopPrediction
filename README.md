@@ -56,9 +56,9 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 
---------
-
-### Dev log
+------------
+Dev log
+------------
 #### 15.4.2020
 Organise the whole program with new structure.
 
