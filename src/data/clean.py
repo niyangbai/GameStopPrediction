@@ -1,12 +1,4 @@
 # -*- coding: utf-8-sig -*-
-"""
-data cleaning
-
-@author: baini
-"""
-
-import pandas as pd
-import time
 
 df = pd.read_csv('api.csv', encoding = 'utf-8-sig')
 deleted = ['[removed]', '[deleted]', '[deleted by user]']

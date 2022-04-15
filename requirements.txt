@@ -1,5 +1,9 @@
 # local package
--e .
+praw
+datetime
+pandas
+psaw
+spacy
 
 # external requirements
 click

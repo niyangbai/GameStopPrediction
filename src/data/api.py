@@ -1,17 +1,5 @@
 # -*- coding: utf-8-sig -*-
 
-"""
-data crawling
-
-@author: baini
-"""
-
-from praw.models import MoreComments
-import datetime as dt
-import praw
-import pandas as pd
-from psaw import PushshiftAPI
-
 with open('pw.txt', 'r') as f:
     pw = f.read()
 CLIENT_ID = 'w66eheluJKCHiSWF8oZmfw'
