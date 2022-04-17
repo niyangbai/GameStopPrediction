@@ -3,7 +3,7 @@ import time
 import pandas as pd
 
 def data_clean(path, encoding = 'utf-8-sig'):
-    df = pd.read_csv('api.csv', encoding = 'utf-8-sig')
+    df = pd.read_csv(path, encoding = encoding)
     deleted = ['[removed]', '[deleted]', '[deleted by user]']
     df_clean = df.replace(deleted, None)
     df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis = 1) != 0,]
@@ -19,9 +19,6 @@ def data_clean(path, encoding = 'utf-8-sig'):
 
     df_clean['created_utc'] = df_clean['created_utc'].apply(lambda x: time.strftime('%m-%d-%y', time.localtime(x)))
     return df_clean
-
-### test
-df_clean.to_csv('clean.csv', encoding = 'utf-8-sig', index = False)
 
 
 

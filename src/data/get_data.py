@@ -5,6 +5,7 @@ import datetime as dt
 import pandas as pd
 from psaw import PushshiftAPI
 
+"""
 username = 'niyangbai'
 with open('pw.txt', 'r') as f:
     pw = f.read()
@@ -14,6 +15,7 @@ start_time = dt.datetime(2022, 4, 1)
 end_time = dt.datetime(2022, 4, 2)
 spam_user = ['VisualMod', 'AutoModerator']
 path = 'aaa.csv'
+"""
 
 class API:
     def __init__(self, client_id, client_key, username, passwd):
@@ -68,6 +70,7 @@ class API:
         df = pd.DataFrame(submissions_dict)
         return df
 
-### test
+"""
 a = API(CLIENT_ID, CLIENT_KEY, username, pw)
 print(a.get_data(start_time, end_time, limit = 5))
+"""
