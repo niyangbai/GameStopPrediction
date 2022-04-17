@@ -2,6 +2,5 @@ __all__ = ['get_data',
            'data_clean',
            'nlp',
            'make_dataset']
-import get_data
-import data_clean
-
+from get_data import API
+from data_clean import data_clean
