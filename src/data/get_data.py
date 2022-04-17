@@ -4,6 +4,7 @@ from praw.models import MoreComments
 import datetime as dt
 import pandas as pd
 from psaw import PushshiftAPI
+subreddit = 'wallstreetbets'
 
 """
 username = 'niyangbai'
@@ -27,13 +28,13 @@ class API_getdata:
             username=username,
             check_for_async=False)
 
-    def get_data(self, start_time, end_time, spam_user=[], limit = None):
+    def get_data(self, start_time, end_time, spam_user=[], subreddit, limit = None):
         api = PushshiftAPI(self.reddit)
         start_epoch = int(start_time.timestamp())
         end_epoch = int(end_time.timestamp())
         submissions_generator = api.search_submissions(after=start_epoch,
                                                        before=end_epoch,
-                                                       subreddit='wallstreetbets',
+                                                       subreddit=subreddit,
                                                        limit=limit)
         submissions = list(submissions_generator)
 
