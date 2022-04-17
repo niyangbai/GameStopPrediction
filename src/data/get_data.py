@@ -17,7 +17,7 @@ spam_user = ['VisualMod', 'AutoModerator']
 path = 'aaa.csv'
 """
 
-class API:
+class API_getdata:
     def __init__(self, client_id, client_key, username, passwd):
         self.reddit = praw.Reddit(
             client_id=client_id,
@@ -71,6 +71,6 @@ class API:
         return df
 
 """
-a = API(CLIENT_ID, CLIENT_KEY, username, pw)
+a = API_getdata(CLIENT_ID, CLIENT_KEY, username, pw)
 print(a.get_data(start_time, end_time, limit = 5))
 """
