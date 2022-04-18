@@ -59,6 +59,9 @@ Project Organization
 ------------
 Dev log
 ------------
+#### 17.4.2020
+Rewrote `API` and `data_clean`. Started the data exploration notebook.
+
 #### 15.4.2020
 Organise the whole program with new structure.
 
