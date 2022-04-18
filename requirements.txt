@@ -3,7 +3,7 @@ praw
 datetime
 pandas
 psaw
-spacy
+pandas_datareader
 
 # external requirements
 click

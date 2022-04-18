@@ -3,11 +3,11 @@ import praw
 from praw.models import MoreComments
 import pandas as pd
 from psaw import PushshiftAPI
-import time
-import datetime as dt
+from datetime import datetime
+import pandas_datareader.data as web
 
 
-class ApiGetData:
+class RdtData:
 
     def __init__(self, client_id, client_key, username, passwd):
         self.reddit = praw.Reddit(
@@ -18,10 +18,10 @@ class ApiGetData:
             username=username,
             check_for_async=False)
 
-    def get_data(self, start_time, end_time, subreddit, spam_user=[], limit=None):
+    def get_data(self, start_date, end_date, subreddit, spam_user=[], limit=None):
         api = PushshiftAPI(self.reddit)
-        start_epoch = int(start_time.timestamp())
-        end_epoch = int(end_time.timestamp())
+        start_epoch = int(start_date.timestamp())
+        end_epoch = int(end_date.timestamp())
         submissions_generator = api.search_submissions(after=start_epoch,
                                                        before=end_epoch,
                                                        subreddit=subreddit,
@@ -59,22 +59,15 @@ class ApiGetData:
         return df
 
 
-def data_clean(df):
-    deleted = ['[removed]', '[deleted]', '[deleted by user]']
-    df_clean = df.replace(deleted, None)
-    df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
-    df_clean = df_clean.replace(r'\n', ' ', regex=True)
+class FinData:
 
-    word_col = ['title', 'selftext', 'top_comments']
+    def __init__(self, name, source):
+        self.name = name
+        self.source = source
 
-    for col in word_col:
-        df_clean[col] = df_clean[col].replace(r'http\S+', '', regex=True).replace(r'www\S+', '', regex=True)
-        df_clean[col] = df_clean[col].replace(r'\!\[img\]\S+', '', regex=True)
-        df_clean[col] = df_clean[col].replace(r'\[deleted\]', '', regex=True)
-        df_clean[col] = df_clean[col].replace(r'\[removed\]', '', regex=True)
-
-    df_clean['created_utc'] = df_clean['created_utc'].apply(lambda x: time.strftime('%m-%d-%y', time.localtime(x)))
-    return df_clean
+    def get_data(self, start_date, end_date):
+        df = web.DataReader(self.name, self.source, start_date, end_date)
+        return df
 
 
 def main():
@@ -86,17 +79,22 @@ def main():
         pw = f.read()
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
-    start_time = dt.datetime(2022, 4, 1)
-    end_time = dt.datetime(2022, 4, 2)
+    start_date = datetime(2022, 4, 1)
+    end_date = datetime(2022, 4, 2)
     spam_user = ['VisualMod', 'AutoModerator']
     subreddit = 'wallstreetbets'
 
-    api = ApiGetData(cid, key, username, pw)
-    df_raw = api.get_data(start_time, end_time, subreddit, spam_user)
-    df_raw.to_csv(os.path.join(base_dir, 'df_raw.csv'), index=False, encoding='utf-8-sig')
+    gme = FinData('GME', 'stooq')
+    df_gme = gme.get_data(start_date, end_date)
+    df_gme.to_csv(os.path.join(base_dir, 'df_gme.csv'), index=True, encoding='utf-8-sig')
 
-    df_clean = data_clean(df_raw)
-    df_clean.to_csv(os.path.join(base_dir, 'df_clean.csv'), index=False, encoding='utf-8-sig')
+    sp500 = FinData('sp500', 'fred')
+    df_sp500 = sp500.get_data(start_date, end_date)
+    df_sp500.to_csv(os.path.join(base_dir, 'df_sp500.csv'), index=True, encoding='utf-8-sig')
+
+    api = RdtData(cid, key, username, pw)
+    df_rdt = api.get_data(start_date, end_date, subreddit, spam_user, limit=5) # created_utc
+    df_rdt.to_csv(os.path.join(base_dir, 'df_rdt.csv'), index=False, encoding='utf-8-sig')
 
 
 if __name__ == '__main__':
