@@ -60,7 +60,11 @@ Project Organization
 Dev log
 ------------
 #### 18.4.2020
-Finished the raw data and data cleaning part for the data exploration notebook. Wrote the `__init__.py` file.
+Finished the data generating and data cleaning part for the data exploration notebook. 
+Wrote the `__init__.py` file. Wrote a function `FinData` collects financial data. 
+Re-structured the codes, renamed some functions and classes.
+Emojis in the text are now either removed or replaced with their English representation.
+Next step is to further clean the texts with NLP.
 
 #### 17.4.2020
 Rewrote `API` and `data_clean`. Started the data exploration notebook.
