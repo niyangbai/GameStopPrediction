@@ -15,6 +15,7 @@ start_time = dt.datetime(2022, 4, 1)
 end_time = dt.datetime(2022, 4, 2)
 spam_user = ['VisualMod', 'AutoModerator']
 path = 'aaa.csv'
+subreddit = 'wallstreetbets'
 """
 
 class API_getdata:
@@ -27,7 +28,7 @@ class API_getdata:
             username=username,
             check_for_async=False)
 
-    def get_data(self, start_time, end_time, spam_user=[], subreddit, limit = None):
+    def get_data(self, start_time, end_time, subreddit, spam_user=[], limit = None):
         api = PushshiftAPI(self.reddit)
         start_epoch = int(start_time.timestamp())
         end_epoch = int(end_time.timestamp())
