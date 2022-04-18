@@ -59,6 +59,9 @@ Project Organization
 ------------
 Dev log
 ------------
+#### 18.4.2020
+Finished the raw data and data cleaning part for the data exploration notebook. Wrote the `__init__.py` file.
+
 #### 17.4.2020
 Rewrote `API` and `data_clean`. Started the data exploration notebook.
 
