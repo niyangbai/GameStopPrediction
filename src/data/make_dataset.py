@@ -80,10 +80,9 @@ def data_clean(df):
 def main():
     import os
 
-
-    base_dir = os.getcwd()
+    base_dir = 'D:\\github\\master_thesis_2022\\data\\interim'
     username = 'niyangbai'
-    with open(os.path.join(base_dir, 'src\\data\\pw.txt'), 'r') as f:
+    with open('pw.txt', 'r') as f:
         pw = f.read()
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
@@ -94,11 +93,13 @@ def main():
 
     api = ApiGetData(cid, key, username, pw)
     df_raw = api.get_data(start_time, end_time, subreddit, spam_user)
-    df_raw.to_csv(os.path.join(base_dir, 'data\\interim\\df_raw.csv'), index=False, encoding='utf-8-sig')
+    df_raw.to_csv(os.path.join(base_dir, 'df_raw.csv'), index=False, encoding='utf-8-sig')
 
     df_clean = data_clean(df_raw)
-    df_clean.to_csv(os.path.join(base_dir, 'data\\interim\\df_clean.csv'), index=False, encoding='utf-8-sig')
+    df_clean.to_csv(os.path.join(base_dir, 'df_clean.csv'), index=False, encoding='utf-8-sig')
 
 
 if __name__ == '__main__':
     main()
+else:
+    print('successfully imported')
