@@ -78,6 +78,11 @@ def data_clean(df):
 
 
 def main():
+    import os
+    import sys
+    script_dir = os.path.abspath(os.path.dirname(sys.argv[0]) or '.')
+
+
     username = 'niyangbai'
     with open('pw.txt', 'r') as f:
         pw = f.read()
@@ -90,10 +95,10 @@ def main():
 
     api = ApiGetData(cid, key, username, pw)
     df_raw = api.get_data(start_time, end_time, subreddit, spam_user, limit=5, )
-    df_raw.to_csv('../data/interim/df_raw.csv')
+    df_raw.to_csv(os.path.join(script_dir, '../data/interim/df_raw.csv'), index=False, encoding='utf-8-sig')
 
     df_clean = data_clean(df_raw)
-    df_clean.to_csv('../data/interim/df_clean.csv')
+    df_clean.to_csv(os.path.join(script_dir, '../data/interim/df_clean.csv'), index=False, encoding='utf-8-sig')
 
 
 if __name__ == '__main__':
