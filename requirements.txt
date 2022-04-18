@@ -3,7 +3,8 @@ praw
 datetime
 pandas
 psaw
-spacy
+pandas_datareader
+emoji
 
 # external requirements
 click
