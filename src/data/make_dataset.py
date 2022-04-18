@@ -4,6 +4,7 @@ from praw.models import MoreComments
 import pandas as pd
 from psaw import PushshiftAPI
 import time
+import datetime as dt
 
 
 class ApiGetData:
@@ -76,18 +77,24 @@ def data_clean(df):
     return df_clean
 
 
-"""
-username = 'niyangbai'
-with open('pw.txt', 'r') as f:
-    pw = f.read()
-CLIENT_ID = 'w66eheluJKCHiSWF8oZmfw'
-CLIENT_KEY = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
-start_time = dt.datetime(2022, 4, 1)
-end_time = dt.datetime(2022, 4, 2)
-spam_user = ['VisualMod', 'AutoModerator']
-path = 'aaa.csv'
-subreddit = 'wallstreetbets'
+def main():
+    username = 'niyangbai'
+    with open('pw.txt', 'r') as f:
+        pw = f.read()
+    cid = 'w66eheluJKCHiSWF8oZmfw'
+    key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
+    start_time = dt.datetime(2022, 4, 1)
+    end_time = dt.datetime(2022, 4, 2)
+    spam_user = ['VisualMod', 'AutoModerator']
+    subreddit = 'wallstreetbets'
 
-a = ApiGetData(CLIENT_ID, CLIENT_KEY, username, pw)
-print(a.get_data(start_time, end_time, limit = 5))
-"""
+    api = ApiGetData(cid, key, username, pw)
+    df_raw = api.get_data(start_time, end_time, subreddit, spam_user, limit=5, )
+    df_raw.to_csv('../data/interim/df_raw.csv')
+
+    df_clean = data_clean(df_raw)
+    df_clean.to_csv('../data/interim/df_clean.csv')
+
+
+if __name__ == '__main__':
+    main()
