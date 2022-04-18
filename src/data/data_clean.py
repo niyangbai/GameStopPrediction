@@ -1,14 +1,12 @@
 # -*- coding: utf-8-sig -*-
 import time
-import pandas as pd
 
 
-def data_clean(path, encoding='utf-8-sig'):
-    df = pd.read_csv(path, encoding=encoding)
+def data_clean(df):
     deleted = ['[removed]', '[deleted]', '[deleted by user]']
     df_clean = df.replace(deleted, None)
     df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
-    df_clean = df_clean.replace(r'\n',' ', regex=True)
+    df_clean = df_clean.replace(r'\n', ' ', regex=True)
 
     word_col = ['title', 'selftext', 'top_comments']
 
