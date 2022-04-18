@@ -79,7 +79,7 @@ def main():
         pw = f.read()
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
-    start_date = datetime(2022, 4, 1)
+    start_date = datetime(2022, 3, 1)
     end_date = datetime(2022, 4, 2)
     spam_user = ['VisualMod', 'AutoModerator']
     subreddit = 'wallstreetbets'
@@ -93,7 +93,7 @@ def main():
     df_sp500.to_csv(os.path.join(base_dir, 'df_sp500.csv'), index=True, encoding='utf-8-sig')
 
     api = RdtData(cid, key, username, pw)
-    df_rdt = api.get_data(start_date, end_date, subreddit, spam_user, limit=5) # created_utc
+    df_rdt = api.get_data(start_date, end_date, subreddit, spam_user, limit=50) # created_utc
     df_rdt.to_csv(os.path.join(base_dir, 'df_rdt.csv'), index=False, encoding='utf-8-sig')
 
 
