@@ -1,10 +1,12 @@
 import pandas as pd
+import re
+import emoji
 from datetime import datetime
 
 
-def data_clean(df):
+def words_clean(dataframe):
     deleted = ['[removed]', '[deleted]', '[deleted by user]']
-    df_clean = df.replace(deleted, None)
+    df_clean = dataframe.replace(deleted, None)
     df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
     df_clean = df_clean.replace(r'\n', ' ', regex=True)
 
@@ -17,6 +19,23 @@ def data_clean(df):
         df_clean[col] = df_clean[col].replace(r'\[removed\]', '', regex=True)
 
     return df_clean
+
+
+def emj_clean(string, delete: bool):
+
+    if delete:
+        emoji_pattern = re.compile('['
+                                   u'\U0001F600-\U0001F64F'  # emoticons
+                                   u'\U0001F300-\U0001F5FF'  # symbols & pictographs
+                                   u'\U0001F680-\U0001F6FF'  # transport & map symbols
+                                   u'\U0001F1E0-\U0001F1FF'  # flags (iOS)
+                                   u'\U00002702-\U000027B0'
+                                   u'\U000024C2-\U0001F251'
+                                   ']+', flags=re.UNICODE)
+        return emoji_pattern.sub(r'', string)
+    else:
+        pass
+
 
 
 def time_reformat(input_time):
@@ -32,9 +51,9 @@ def main():
 
     input_dir = 'D:\\github\\master_thesis_2022\\data\\interim'
     output_dir = 'D:\\github\\master_thesis_2022\\data\\raw'
-    df_rdt = pd.read_csv(os.path.join(input_dir, 'df_rdt.csv'))
-    df_gme = pd.read_csv(os.path.join(input_dir, 'df_gme.csv'))
-    df_sp500 = pd.read_csv(os.path.join(input_dir, 'df_sp500.csv'))
+    df_rdt = pd.read_csv(os.path.join(input_dir, 'df_rdt.csv'), encoding='utf-8-sig')
+    df_gme = pd.read_csv(os.path.join(input_dir, 'df_gme.csv'), encoding='utf-8-sig')
+    df_sp500 = pd.read_csv(os.path.join(input_dir, 'df_sp500.csv'), encoding='utf-8-sig')
 
     df_rdt['created_utc'] = df_rdt['created_utc'].apply(time_reformat)
     df_gme['Date'] = df_gme['Date'].apply(time_reformat)
@@ -42,7 +61,9 @@ def main():
 
     df_raw = df_rdt.merge(df_sp500, left_on='created_utc', right_on='DATE').merge(df_gme, left_on='created_utc', right_on='Date')
     df_raw = df_raw.drop(['Date', 'DATE'], axis=1)
-    df_raw.to_csv(os.path.join(output_dir, 'df_sp500.csv'))
+
+    df_raw = words_clean(df_raw)
+    df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig')
 
 
 if __name__ == '__main__':

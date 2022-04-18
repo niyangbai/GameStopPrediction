@@ -4,6 +4,7 @@ datetime
 pandas
 psaw
 pandas_datareader
+emoji
 
 # external requirements
 click
