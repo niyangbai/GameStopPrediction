@@ -93,7 +93,7 @@ def main():
     subreddit = 'wallstreetbets'
 
     api = ApiGetData(cid, key, username, pw)
-    df_raw = api.get_data(start_time, end_time, subreddit, spam_user, limit=5, )
+    df_raw = api.get_data(start_time, end_time, subreddit, spam_user)
     df_raw.to_csv(os.path.join(base_dir, 'data\\interim\\df_raw.csv'), index=False, encoding='utf-8-sig')
 
     df_clean = data_clean(df_raw)
