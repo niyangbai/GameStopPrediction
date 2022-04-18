@@ -1,7 +1,6 @@
 # -*- coding: utf-8-sig -*-
 import praw
 from praw.models import MoreComments
-import datetime as dt
 import pandas as pd
 from psaw import PushshiftAPI
 
@@ -18,7 +17,9 @@ path = 'aaa.csv'
 subreddit = 'wallstreetbets'
 """
 
-class API_getdata:
+
+class ApiGetData:
+
     def __init__(self, client_id, client_key, username, passwd):
         self.reddit = praw.Reddit(
             client_id=client_id,
@@ -28,7 +29,7 @@ class API_getdata:
             username=username,
             check_for_async=False)
 
-    def get_data(self, start_time, end_time, subreddit, spam_user=[], limit = None):
+    def get_data(self, start_time, end_time, subreddit, spam_user=[], limit=None):
         api = PushshiftAPI(self.reddit)
         start_epoch = int(start_time.timestamp())
         end_epoch = int(end_time.timestamp())
@@ -37,7 +38,6 @@ class API_getdata:
                                                        subreddit=subreddit,
                                                        limit=limit)
         submissions = list(submissions_generator)
-
         submissions_dict = {"id": [],
                             "url": [],
                             "title": [],
@@ -48,7 +48,6 @@ class API_getdata:
                             "top_comments": []}
 
         spam_user = spam_user
-
         for submission_id in submissions:
             submission_praw = self.reddit.submission(id=submission_id)
             submissions_dict["id"].append(submission_praw.id)
@@ -67,11 +66,11 @@ class API_getdata:
                 if comment.author not in spam_user:
                     top_comments.append(comment.body)
             submissions_dict["top_comments"].append(' . '.join(top_comments))
-
         df = pd.DataFrame(submissions_dict)
         return df
 
+
 """
-a = API_getdata(CLIENT_ID, CLIENT_KEY, username, pw)
+a = ApiGetData(CLIENT_ID, CLIENT_KEY, username, pw)
 print(a.get_data(start_time, end_time, limit = 5))
 """
