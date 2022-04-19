@@ -3,7 +3,7 @@ import praw
 from praw.models import MoreComments
 import pandas as pd
 from psaw import PushshiftAPI
-from datetime import datetime
+import datetime
 import pandas_datareader.data as web
 
 
@@ -20,42 +20,61 @@ class RdtData:
 
     def get_data(self, start_date, end_date, subreddit, spam_user=[], num_comments=2, limit=None):
         api = PushshiftAPI(self.reddit)
-        start_epoch = int(start_date.timestamp())
-        end_epoch = int(end_date.timestamp())
-        submissions_generator = api.search_submissions(after=start_epoch,
-                                                       before=end_epoch,
-                                                       subreddit=subreddit,
-                                                       limit=limit)
-        submissions = list(submissions_generator)
-        submissions_dict = {"id": [],
-                            "url": [],
-                            "title": [],
-                            "score": [],
-                            "num_comments": [],
-                            "created_utc": [],
-                            "selftext": [],
-                            "top_comments": []}
 
-        spam_user = spam_user
-        for submission_id in submissions:
-            submission_praw = self.reddit.submission(id=submission_id)
-            submissions_dict["id"].append(submission_praw.id)
-            submissions_dict["url"].append(submission_praw.url)
-            submissions_dict["title"].append(submission_praw.title)
-            submissions_dict["score"].append(submission_praw.score)
-            submissions_dict["num_comments"].append(submission_praw.num_comments)
-            submissions_dict["created_utc"].append(submission_praw.created_utc)
-            submissions_dict["selftext"].append(submission_praw.selftext)
-            submission_praw.comment_sort = "top"
-            submission_praw.comment_limit = num_comments
-            top_comments = []
-            for comment in submission_praw.comments:
-                if isinstance(comment, MoreComments):
-                    continue
-                if comment.author not in spam_user:
-                    top_comments.append(comment.body)
-            submissions_dict["top_comments"].append(' . '.join(top_comments))
-        df = pd.DataFrame(submissions_dict)
+
+
+        t = start_date
+        while t < end_date:
+
+
+
+
+
+
+            start_epoch = int(start_date.timestamp())
+            end_epoch = int(end_date.timestamp())
+            submissions_generator = api.search_submissions(after=start_epoch,
+                                                           before=end_epoch,
+                                                           subreddit=subreddit,
+                                                           limit=limit)
+            submissions = list(submissions_generator)
+            submissions_dict = {"id": [],
+                                "url": [],
+                                "title": [],
+                                "score": [],
+                                "num_comments": [],
+                                "created_utc": [],
+                                "selftext": [],
+                                "top_comments": []}
+
+            spam_user = spam_user
+            for submission_id in submissions:
+                submission_praw = self.reddit.submission(id=submission_id)
+                submissions_dict["id"].append(submission_praw.id)
+                submissions_dict["url"].append(submission_praw.url)
+                submissions_dict["title"].append(submission_praw.title)
+                submissions_dict["score"].append(submission_praw.score)
+                submissions_dict["num_comments"].append(submission_praw.num_comments)
+                submissions_dict["created_utc"].append(submission_praw.created_utc)
+                submissions_dict["selftext"].append(submission_praw.selftext)
+                submission_praw.comment_sort = "top"
+                submission_praw.comment_limit = num_comments
+                top_comments = []
+                for comment in submission_praw.comments:
+                    if isinstance(comment, MoreComments):
+                        continue
+                    if comment.author not in spam_user:
+                        top_comments.append(comment.body)
+                submissions_dict["top_comments"].append(' . '.join(top_comments))
+            df = pd.DataFrame(submissions_dict)
+
+
+
+
+
+
+
+        t = t + datetime.timedelta(days=1)
         return df
 
 
@@ -79,8 +98,8 @@ def main():
         pw = f.read()
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
-    start_date = datetime(2022, 3, 1)
-    end_date = datetime(2022, 3, 2)
+    start_date = datetime.datetime(2022, 3, 1)
+    end_date = datetime.datetime(2022, 3, 2)
     spam_user = ['VisualMod', 'AutoModerator']
     subreddit = 'wallstreetbets'
 
