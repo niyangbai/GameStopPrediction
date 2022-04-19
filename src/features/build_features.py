@@ -97,7 +97,7 @@ def main():
     df_raw = clean.emj_clean(df_raw)
     df_raw = clean.text_clean(df_raw, punctuation=False)
 
-    df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig')
+    df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig', index=False)
 
 
 if __name__ == '__main__':

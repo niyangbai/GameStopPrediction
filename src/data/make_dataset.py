@@ -80,7 +80,7 @@ def main():
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
     start_date = datetime(2022, 3, 1)
-    end_date = datetime(2022, 4, 1)
+    end_date = datetime(2022, 3, 2)
     spam_user = ['VisualMod', 'AutoModerator']
     subreddit = 'wallstreetbets'
 
