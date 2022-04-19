@@ -13,6 +13,7 @@ class DataClean:
         df_clean = dataframe.replace(deleted, None)
         df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
         df_clean = df_clean.replace(r'\n', ' ', regex=True)
+        df_clean = df_clean.fillna('')
 
         for col in self.col:
             df_clean[col] = df_clean[col].replace(r'http\S+', '', regex=True).replace(r'www\S+', '', regex=True)
@@ -24,40 +25,22 @@ class DataClean:
 
     def emj_clean(self, dataframe, delete=True):
 
-        def dele(strings):
-            if pd.notna(strings):
-                strings = emoji.replace_emoji(strings, replace='')
-            return strings
-
-        def rep(strings):
-            if pd.notna(strings):
-                strings = emoji.demojize(strings)
-            return strings
-
         for col in self.col:
             if delete:
-                dataframe[col] = dataframe[col].apply(dele)
+                dataframe[col] = dataframe[col].apply(lambda x: emoji.replace_emoji(x, replace=''))
             else:
-                dataframe[col] = dataframe[col].apply(rep)
+                dataframe[col] = dataframe[col].apply(lambda x: emoji.demojize(x))
+
         return dataframe
 
     def text_clean(self, dataframe, punctuation=True, lower=True):
 
-        def pun(strings):
-            if pd.notna(strings):
-                strings = strings.translate(str.maketrans('', '', string.punctuation))
-            return strings
-
-        def low(strings):
-            if pd.notna(strings):
-                strings = strings.lower()
-            return strings
-
         for col in self.col:
             if punctuation:
-                dataframe[col] = dataframe[col].apply(pun)
+                dataframe[col] = dataframe[col].apply(lambda x: x.translate(str.maketrans('', '', string.punctuation)))
             if lower:
-                dataframe[col] = dataframe[col].apply(low)
+                dataframe[col] = dataframe[col].apply(lambda x: x.lower())
+
         return dataframe
 
 
@@ -83,6 +66,12 @@ def main():
     df_gme['Date'] = df_gme['Date'].apply(time_reformat)
     df_sp500['DATE'] = df_sp500['DATE'].apply(time_reformat)
 
+    df_gme['close_diff'] = df_gme['Close'].diff()
+    df_sp500['sp500_diff'] = df_sp500['sp500'].diff()
+    df_gme = df_gme.drop(['Open', 'High', 'Low', 'Volume', 'Close'], axis=1)
+    df_rdt = df_rdt.drop(['url'], axis=1)
+    df_sp500 = df_sp500.drop(['sp500'], axis=1)
+
     df_raw = df_gme.merge(df_sp500,
                           left_on='Date',
                           right_on='DATE').merge(df_rdt,
@@ -96,8 +85,11 @@ def main():
 
     df_raw = clean.table_clean(df_raw)
     df_raw = clean.emj_clean(df_raw)
-    df_raw = clean.text_clean(df_raw, punctuation=False)
+    df_raw = clean.text_clean(df_raw, punctuation=True)
 
+    df_raw['text'] = df_raw['title'] + df_raw['selftext'] + df_raw['top_comments']
+    df_raw = df_raw.drop(['title', 'selftext', 'top_comments'], axis=1)
+    df_raw = df_raw.dropna()
     df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig', index=False)
 
 

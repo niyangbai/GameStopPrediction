@@ -6,6 +6,7 @@ psaw
 pandas_datareader
 emoji
 tensorflow
+sklearn
 
 # external requirements
 click
