@@ -89,7 +89,7 @@ def main():
                                                  left_on='Date',
                                                  right_on='created_utc')
 
-    df_raw = df_raw.drop(['Date', 'DATE'], axis=1)
+    df_raw = df_raw.drop(['DATE', 'created_utc'], axis=1)
 
     clean_col = ['title', 'selftext', 'top_comments']
     clean = DataClean(clean_col)
