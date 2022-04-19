@@ -11,7 +11,8 @@ class DataClean:
     def table_clean(self, dataframe):
         deleted = ['[removed]', '[deleted]', '[deleted by user]']
         df_clean = dataframe.replace(deleted, None)
-        df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
+        #df_clean = df_clean.replace(r'', None, regex=True)
+        #df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
         df_clean = df_clean.replace(r'\n', ' ', regex=True)
         df_clean = df_clean.fillna('')
 
@@ -89,6 +90,7 @@ def main():
 
     df_raw['text'] = df_raw['title'] + df_raw['selftext'] + df_raw['top_comments']
     df_raw = df_raw.drop(['title', 'selftext', 'top_comments'], axis=1)
+    df_raw = df_raw.replace(r'', None, regex=True)
     df_raw = df_raw.dropna()
     df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig', index=False)
 
