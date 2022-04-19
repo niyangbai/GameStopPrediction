@@ -115,7 +115,7 @@ def main():
         pw = f.read()
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
-    start_date = datetime.datetime(2022, 1, 1)
+    start_date = datetime.datetime(2022, 2, 1)
     end_date = datetime.datetime(2022, 4, 1)
     spam_user = ['VisualMod', 'AutoModerator']
     subreddit = 'wallstreetbets'
