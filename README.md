@@ -64,7 +64,7 @@ For unknown resons, `praw` cannot load data for a relative longer period (even d
 I dicided to load the data chunk by chunk with a loop.
 Wrote the text cleaning code, but further development needed, especially for abbreviations and slangs.
 There are only around 250 trading days a year, and the data collecting process are super slow, 
-so I am thinking about only crawl data for those trading days.
+so I add an option to only crawl data for those trading days.
 
 #### 18.4.2022
 Finished the data generating and data cleaning part for the data exploration notebook. 
