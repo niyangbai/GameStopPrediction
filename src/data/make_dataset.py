@@ -20,19 +20,13 @@ class RdtData:
 
     def get_data(self, start_date, end_date, subreddit, spam_user=[], num_comments=2, limit=None):
         api = PushshiftAPI(self.reddit)
+        df_fin = pd.DataFrame()
+        st = start_date
 
-
-
-        t = start_date
-        while t < end_date:
-
-
-
-
-
-
-            start_epoch = int(start_date.timestamp())
-            end_epoch = int(end_date.timestamp())
+        while st < end_date:
+            et = st + datetime.timedelta(days=1)
+            start_epoch = int(st.timestamp())
+            end_epoch = int(et.timestamp())
             submissions_generator = api.search_submissions(after=start_epoch,
                                                            before=end_epoch,
                                                            subreddit=subreddit,
@@ -67,15 +61,11 @@ class RdtData:
                         top_comments.append(comment.body)
                 submissions_dict["top_comments"].append(' . '.join(top_comments))
             df = pd.DataFrame(submissions_dict)
+            df_fin = pd.concat([df_fin, df], axis=0)
 
+            st = st + datetime.timedelta(days=1)
 
-
-
-
-
-
-        t = t + datetime.timedelta(days=1)
-        return df
+        return df_fin
 
 
 class FinData:
