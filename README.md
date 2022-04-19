@@ -59,23 +59,28 @@ Project Organization
 ------------
 Dev log
 ------------
-#### 18.4.2020
+#### 19.4.2022
+For unknown resons, `praw` cannot load data for a relative longer period (even doesn't work with month level).
+I dicided to load the data chunk by chunk with a loop.
+Wrote the text cleaning code, but further development needed, especially for abbreviations and slangs.
+
+#### 18.4.2022
 Finished the data generating and data cleaning part for the data exploration notebook. 
 Wrote the `__init__.py` file. Wrote a function `FinData` collects financial data. 
 Re-structured the codes, renamed some functions and classes.
 Emojis in the text are now either removed or replaced with their English representation.
 Next step is to further clean the texts with NLP.
 
-#### 17.4.2020
+#### 17.4.2022
 Rewrote `API` and `data_clean`. Started the data exploration notebook.
 
-#### 15.4.2020
+#### 15.4.2022
 Organise the whole program with new structure.
 
-#### 13.4.2020
+#### 13.4.2022
 Started to work on nlp and deep learning part.
 
-#### 12.4.2020
+#### 12.4.2022
 Droped the submission without any information (they could be deleted or removed by posters).
 Avioded all posts from reddit spam bots.
 Converted epoch time into datetime.
@@ -83,7 +88,7 @@ Encoding problem was solved by simply using `utf-8-sig`instead of `utf-8` while 
 Kicked noises like urls, images and emoji out. 
 The next step should be locating financial related interesting topics in the whole data set.
 
-#### 11.4.2020
+#### 11.4.2022
 Started working on coding finially. With `praw` and `pasw`, there is no need to face the ugly reddit api directly, what a relief!
 Finished the first draft for data crawling, althrough it runs super slow lol.
 Besides the buggy code, mian problem today is the data encoding (e.g. got `â€™` instead of `'`), it is neither `utf-8` nor `iso-8859-1`.
