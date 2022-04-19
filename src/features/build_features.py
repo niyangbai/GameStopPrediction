@@ -83,11 +83,12 @@ def main():
     df_gme['Date'] = df_gme['Date'].apply(time_reformat)
     df_sp500['DATE'] = df_sp500['DATE'].apply(time_reformat)
 
-    df_raw = df_rdt.merge(df_sp500,
-                          left_on='created_utc',
-                          right_on='DATE').merge(df_gme,
-                                                 left_on='created_utc',
-                                                 right_on='Date')
+    df_raw = df_gme.merge(df_sp500,
+                          left_on='Date',
+                          right_on='DATE').merge(df_rdt,
+                                                 left_on='Date',
+                                                 right_on='created_utc')
+
     df_raw = df_raw.drop(['Date', 'DATE'], axis=1)
 
     clean_col = ['title', 'selftext', 'top_comments']
