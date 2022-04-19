@@ -83,7 +83,7 @@ class RdtData:
                 print('Reddit data for ' +
                       date.strftime("%y-%m-%d") +
                       ' collected. (' +
-                      '{:.0%}'.format(date_list.index(date) / len(date_list.index)) +
+                      '{:.0%}'.format(date_list.index(date) / len(date_list)) +
                       ')')
             return df_fin
 
@@ -128,7 +128,8 @@ def main():
     df_sp500 = sp500.get_data(start_date, end_date)
     df_sp500.to_csv(os.path.join(base_dir, 'df_sp500.csv'), index=True, encoding='utf-8-sig')
 
-    trade_days = df_gme['Date'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'))
+    trade_days = [i.to_pydatetime() for i in df_gme.index]
+
     api = RdtData(cid, key, username, pw)
     df_rdt = api.get_data(start_date, end_date, subreddit, spam_user, limit=5, date_list=trade_days)
     df_rdt.to_csv(os.path.join(base_dir, 'df_rdt.csv'), index=False, encoding='utf-8-sig')
