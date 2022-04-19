@@ -60,9 +60,9 @@ Project Organization
 Dev log
 ------------
 #### 19.4.2022
-For unknown resons, `praw` cannot load data for a relative longer period (even doesn't work with month level).
-I dicided to load the data chunk by chunk with a loop.
-Wrote the text cleaning code, but further development needed, especially for abbreviations and slangs.
+Wrote the text cleaning code, but further development needed, especially for abbreviations and slang.
+For unknown reasons, `praw` cannot load data for a relative longer time period (even doesn't work at monthly level), so
+I decided to load the data chunk by chunk with a loop.
 There are only around 250 trading days a year, and the data collecting process are super slow, 
 so I add an option to only crawl data for those trading days.
 
