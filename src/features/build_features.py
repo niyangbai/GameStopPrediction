@@ -41,7 +41,7 @@ class DataClean:
                 dataframe[col] = dataframe[col].apply(rep)
         return dataframe
 
-    def text_clean(self, dataframe, punctuation=True, lower=True):
+    def text_clean(self, dataframe, punctuation=True, lower=True): #缩写！！！
 
         def pun(strings):
             if pd.notna(strings):
