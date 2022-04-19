@@ -1,13 +1,14 @@
 import pandas as pd
 import emoji
 from datetime import datetime
+import string
 
 
 class DataClean:
     def __init__(self, column):
         self.col = column
 
-    def words_clean(self, dataframe):
+    def table_clean(self, dataframe):
         deleted = ['[removed]', '[deleted]', '[deleted by user]']
         df_clean = dataframe.replace(deleted, None)
         df_clean = df_clean.loc[df_clean[['title', 'selftext', 'top_comments']].notna().sum(axis=1) != 0, ]
@@ -23,21 +24,40 @@ class DataClean:
 
     def emj_clean(self, dataframe, delete=True):
 
-        def dele(string):
-            if pd.notna(string):
-                string = emoji.replace_emoji(string, replace='')
-            return string
+        def dele(strings):
+            if pd.notna(strings):
+                strings = emoji.replace_emoji(strings, replace='')
+            return strings
 
-        def rep(string):
-            if pd.notna(string):
-                string = emoji.demojize(string)
-            return string
+        def rep(strings):
+            if pd.notna(strings):
+                strings = emoji.demojize(strings)
+            return strings
 
         for col in self.col:
             if delete:
                 dataframe[col] = dataframe[col].apply(dele)
             else:
                 dataframe[col] = dataframe[col].apply(rep)
+        return dataframe
+
+    def text_clean(self, dataframe, punctuation=True, lower=True):
+
+        def pun(strings):
+            if pd.notna(strings):
+                strings = strings.translate(str.maketrans('', '', string.punctuation))
+            return strings
+
+        def low(strings):
+            if pd.notna(strings):
+                strings = strings.lower()
+            return strings
+
+        for col in self.col:
+            if punctuation:
+                dataframe[col] = dataframe[col].apply(pun)
+            if lower:
+                dataframe[col] = dataframe[col].apply(low)
         return dataframe
 
 
@@ -73,8 +93,9 @@ def main():
     clean_col = ['title', 'selftext', 'top_comments']
     clean = DataClean(clean_col)
 
-    df_raw = clean.words_clean(df_raw)
-    df_raw = clean.emj_clean(df_raw, False)
+    df_raw = clean.table_clean(df_raw)
+    df_raw = clean.emj_clean(df_raw)
+    df_raw = clean.text_clean(df_raw)
 
     df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig')
 
