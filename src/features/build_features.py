@@ -41,7 +41,7 @@ class DataClean:
                 dataframe[col] = dataframe[col].apply(rep)
         return dataframe
 
-    def text_clean(self, dataframe, punctuation=True, lower=True): #缩写！！！
+    def text_clean(self, dataframe, punctuation=True, lower=True):
 
         def pun(strings):
             if pd.notna(strings):
@@ -95,7 +95,7 @@ def main():
 
     df_raw = clean.table_clean(df_raw)
     df_raw = clean.emj_clean(df_raw)
-    df_raw = clean.text_clean(df_raw)
+    df_raw = clean.text_clean(df_raw, punctuation=False)
 
     df_raw.to_csv(os.path.join(output_dir, 'df_raw.csv'), encoding='utf-8-sig')
 

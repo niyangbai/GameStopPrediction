@@ -18,7 +18,7 @@ class RdtData:
             username=username,
             check_for_async=False)
 
-    def get_data(self, start_date, end_date, subreddit, spam_user=[], limit=None):
+    def get_data(self, start_date, end_date, subreddit, spam_user=[], num_comments=2, limit=None):
         api = PushshiftAPI(self.reddit)
         start_epoch = int(start_date.timestamp())
         end_epoch = int(end_date.timestamp())
@@ -47,7 +47,7 @@ class RdtData:
             submissions_dict["created_utc"].append(submission_praw.created_utc)
             submissions_dict["selftext"].append(submission_praw.selftext)
             submission_praw.comment_sort = "top"
-            submission_praw.comment_limit = 10
+            submission_praw.comment_limit = num_comments
             top_comments = []
             for comment in submission_praw.comments:
                 if isinstance(comment, MoreComments):
@@ -80,7 +80,7 @@ def main():
     cid = 'w66eheluJKCHiSWF8oZmfw'
     key = 'OlKg7Wd019ARZe50pgzqDPEdvG5OnA'
     start_date = datetime(2022, 3, 1)
-    end_date = datetime(2022, 4, 2)
+    end_date = datetime(2022, 4, 1)
     spam_user = ['VisualMod', 'AutoModerator']
     subreddit = 'wallstreetbets'
 
@@ -93,7 +93,7 @@ def main():
     df_sp500.to_csv(os.path.join(base_dir, 'df_sp500.csv'), index=True, encoding='utf-8-sig')
 
     api = RdtData(cid, key, username, pw)
-    df_rdt = api.get_data(start_date, end_date, subreddit, spam_user, limit=50) # created_utc
+    df_rdt = api.get_data(start_date, end_date, subreddit, spam_user) # created_utc
     df_rdt.to_csv(os.path.join(base_dir, 'df_rdt.csv'), index=False, encoding='utf-8-sig')
 
 
