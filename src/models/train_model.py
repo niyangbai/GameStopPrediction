@@ -18,7 +18,7 @@ output_dir = 'D:\\github\\master_thesis_2022\\data\\processed'
 
 num_words = 20000
 
-tokenizer = Tokenizer(num_words=num_words,oov_token="unk")
+tokenizer = Tokenizer(num_words=num_words, oov_token="unk")
 tokenizer.fit_on_texts(train_data['text'].tolist())
 
 df_raw = pd.read_csv(os.path.join(input_dir, 'df_raw.csv'), encoding='utf-8-sig', index_col='id')
